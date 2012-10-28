@@ -152,7 +152,7 @@ ifeq ($(TARGET_ENABLE_QC_AV_ENHANCEMENTS),true)
        LOCAL_CFLAGS     += -DENABLE_AV_ENHANCEMENTS
        LOCAL_SRC_FILES  += ExtendedCodec.cpp \
                            ExtendedExtractor.cpp \
-						   ExtendedMediaDefs.cpp \
+                           ExtendedMediaDefs.cpp \
                            ExtendedWriter.cpp
 
        ifneq ($(TARGET_QCOM_MEDIA_VARIANT),)
@@ -163,6 +163,16 @@ ifeq ($(TARGET_ENABLE_QC_AV_ENHANCEMENTS),true)
                $(TOP)/hardware/qcom/media/mm-core/inc
        endif
 endif #TARGET_ENABLE_AV_ENHANCEMENTS
+
+ifeq ($(TARGET_QCOM_LEGACY_OMX),true)
+        LOCAL_CFLAGS     += -DQCOM_LEGACY_OMX
+        LOCAL_CFLAGS     += -DQCOM_LEGACY_MMPARSER
+ifneq ($(TARGET_QCOM_MEDIA_VARIANT),)
+        LOCAL_C_INCLUDES += $(TOP)/hardware/qcom/media-$(TARGET_QCOM_MEDIA_VARIANT)/mm-core/inc
+else
+        LOCAL_C_INCLUDES += $(TOP)/hardware/qcom/media/mm-core/inc
+endif
+endif #TARGET_QCOM_LEGACY_OMX
 
 LOCAL_SRC_FILES += \
         chromium_http_stub.cpp
