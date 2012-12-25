@@ -971,6 +971,7 @@ status_t StagefrightRecorder::startAMRRecording() {
 #endif
     }
 
+
 #ifdef QCOM_HARDWARE
     if (mAudioChannels != 1) {
         ALOGE("Invalid number of audio channels %d used for amr recording",
@@ -1419,13 +1420,11 @@ status_t StagefrightRecorder::setupCameraSource(
         *cameraSource = mCameraSourceTimeLapse;
     } else {
         bool useMeta = true;
-#ifdef QCOM_HARDWARE
-        char value[PROPERTY_VALUE_MAX];
-        if (property_get("debug.camcorder.disablemeta", value, NULL) &&
-            atoi(value)) {
-            useMeta = false;
-        }
+
+#ifdef QCOM_LEGACY_OMX
+             useMeta = false;
 #endif
+
         *cameraSource = CameraSource::CreateFromCamera(
                 mCamera, mCameraProxy, mCameraId, videoSize, mFrameRate,
                 mPreviewSurface, useMeta /*storeMetaDataInVideoBuffers*/);
