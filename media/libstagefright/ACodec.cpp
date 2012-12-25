@@ -42,7 +42,7 @@
 
 #include "include/avc_utils.h"
 
-#ifdef QCOM_HARDWARE
+#ifdef QCOM_LEGACY_OMX
 #include <OMX_QCOMExtns.h>
 #include <gralloc_priv.h>
 #include <cutils/properties.h>
@@ -143,7 +143,7 @@ private:
     DISALLOW_EVIL_CONSTRUCTORS(CodecObserver);
 };
 
-#ifdef QCOM_HARDWARE
+#ifdef QCOM_LEGACY_OMX
 static const int QOMX_COLOR_FormatYUV420PackedSemiPlanar64x32Tile2m8ka = 0x7FA30C03;
 static const int OMX_QCOM_COLOR_FormatYVU420SemiPlanar = 0x7FA30C00;
 
@@ -157,22 +157,8 @@ class ColorFormatInfo {
 };
 
 const int32_t ColorFormatInfo::preferredFormat =
-#ifdef TARGET7x30
-    QOMX_COLOR_FormatYUV420PackedSemiPlanar64x32Tile2m8ka;
-#endif
-#ifdef TARGET8x60
-    QOMX_COLOR_FormatYUV420PackedSemiPlanar64x32Tile2m8ka;
-#endif
-#ifdef TARGET7x27
     OMX_QCOM_COLOR_FormatYVU420SemiPlanar;
 #endif
-#ifdef TARGET7x27A
-    OMX_QCOM_COLOR_FormatYVU420SemiPlanar;
-#endif
-#ifdef TARGET8x50
-    OMX_QCOM_COLOR_FormatYVU420SemiPlanar;
-#endif
-#endif //QCOM_HARDWARE
 
 
 ////////////////////////////////////////////////////////////////////////////////
