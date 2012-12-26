@@ -1,0 +1,10 @@
+Change-Id: I50d123539c0cc7906f8b0fe7a9b92a4fb061762b
+Code-Review+1: Erik Castricum <erikcas1972@gmail.com>
+Code-Review+1: AndroidMeda <hephappy@gmail.com>
+Code-Review+2: Pavel Kirpichyov <pavel.kirpichyov@gmail.com>
+Verified+1: Pavel Kirpichyov <pavel.kirpichyov@gmail.com>
+Submitted-by: Pavel Kirpichyov <pavel.kirpichyov@gmail.com>
+Submitted-at: Wed, 26 Dec 2012 11:34:48 +0100
+Reviewed-on: http://server.cas-online.nl:8181/7
+Project: androidarmv6/android_frameworks_av
+Branch: refs/heads/cm-10.1
