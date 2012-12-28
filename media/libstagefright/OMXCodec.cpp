@@ -749,7 +749,9 @@ status_t OMXCodec::configureCodec(const sp<MetaData> &meta) {
             status_t err = mOMX->getExtensionIndex(
                 mNode, OMX_QCOM_INDEX_PARAM_VIDEO_SYNCFRAMEDECODINGMODE, &indexType);
 
+#ifndef QCOM_LEGACY_OMX
             CHECK_EQ(err, (status_t)OK);
+#endif
 
             enableType.bEnable = OMX_TRUE;
 
