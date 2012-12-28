@@ -668,6 +668,7 @@ void CameraClient::disableMsgType(int32_t msgType) {
     mHardware->disableMsgType(msgType);
 }
 
+#ifndef LEGACY_CAMERALIB
 #define CHECK_MESSAGE_INTERVAL 10 // 10ms
 bool CameraClient::lockIfMessageWanted(int32_t msgType) {
     int sleepCount = 0;
@@ -687,6 +688,7 @@ bool CameraClient::lockIfMessageWanted(int32_t msgType) {
     ALOGW("lockIfMessageWanted(%d): dropped unwanted message", msgType);
     return false;
 }
+#endif
 
 // Callback messages can be dispatched to internal handlers or pass to our
 // client's callback functions, depending on the message type.
