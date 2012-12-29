@@ -89,6 +89,11 @@ void CameraService::onFirstRef()
     }
     else {
         mNumberOfCameras = mModule->get_number_of_cameras();
+
+#ifdef ECLAIR_LIBCAMERA
+        if (mNumberOfCameras == 0)
+            mNumberOfCameras = 1;
+#endif
         if (mNumberOfCameras > MAX_CAMERAS) {
             ALOGE("Number of cameras(%d) > MAX_CAMERAS(%d).",
                     mNumberOfCameras, MAX_CAMERAS);
