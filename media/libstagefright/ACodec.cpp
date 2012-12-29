@@ -143,24 +143,6 @@ private:
     DISALLOW_EVIL_CONSTRUCTORS(CodecObserver);
 };
 
-#ifdef QCOM_LEGACY_OMX
-static const int QOMX_COLOR_FormatYUV420PackedSemiPlanar64x32Tile2m8ka = 0x7FA30C03;
-static const int OMX_QCOM_COLOR_FormatYVU420SemiPlanar = 0x7FA30C00;
-
-class ColorFormatInfo {
-    private:
-          static const int32_t preferredFormat;
-    public:
-          static int32_t getPreferredFormat() {
-          return preferredFormat;
-          }
-};
-
-const int32_t ColorFormatInfo::preferredFormat =
-    OMX_QCOM_COLOR_FormatYVU420SemiPlanar;
-#endif
-
-
 ////////////////////////////////////////////////////////////////////////////////
 
 struct ACodec::BaseState : public AState {
