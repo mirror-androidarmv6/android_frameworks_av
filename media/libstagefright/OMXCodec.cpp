@@ -100,47 +100,12 @@ const static int64_t kBufferFilledEventTimeOutNs = 3000000000LL;
 // component in question is buggy or not.
 const static uint32_t kMaxColorFormatSupported = 1000;
 
-#ifdef QCOM_ICS_COMPAT
-static const int QOMX_COLOR_FormatYUV420PackedSemiPlanar64x32Tile2m8ka = 0x7FA30C03;
-static const int OMX_QCOM_COLOR_FormatYVU420SemiPlanar = 0x7FA30C00;
-#endif
 
 #define FACTORY_CREATE_ENCODER(name) \
 static sp<MediaSource> Make##name(const sp<MediaSource> &source, const sp<MetaData> &meta) { \
     return new name(source, meta); \
 }
 
-#ifdef QCOM_LEGACY_OMX
-class ColorFormatInfo {
-    private:
-        enum {
-            LOCAL = 0,
-            REMOTE = 1,
-            END = 2
-        };
-        static const int32_t preferredColorFormat[END];
-    public:
-        static int32_t getPreferredColorFormat(bool isLocal) {
-            char colorformat[10]="";
-            if(!property_get("sf.debug.colorformat", colorformat, NULL)){
-                if(isLocal) {
-                    return preferredColorFormat[LOCAL];
-                }
-                return preferredColorFormat[REMOTE];
-            } else {
-                if(!strcmp(colorformat, "yamato")) {
-                    return QOMX_COLOR_FormatYVU420PackedSemiPlanar32m4ka;
-                }
-                return preferredColorFormat[LOCAL];
-            }
-        }
-};
-
-const int32_t ColorFormatInfo::preferredColorFormat[] = {
-    OMX_QCOM_COLOR_FormatYVU420SemiPlanar,
-    OMX_QCOM_COLOR_FormatYVU420SemiPlanar
-};
-#endif
 #define FACTORY_REF(name) { #name, Make##name },
 
 FACTORY_CREATE_ENCODER(AACEncoder)
@@ -360,12 +325,6 @@ uint32_t OMXCodec::getComponentQuirks(
     quirks |= QCOMXCodec::getQCComponentQuirks(list,index);
 #endif
 
-#ifdef QCOM_LEGACY_OMX
-    if (list->codecHasQuirk(
-                index, "requires-larger-encoder-output-buffer")) {
-            quirks |= kRequiresLargerEncoderOutputBuffer;
-    }
-#endif
     return quirks;
 }
 
@@ -939,11 +898,6 @@ static size_t getFrameSize(
         case OMX_SEC_COLOR_FormatNV12LPhysicalAddress:
 #endif
             return (width * height * 3) / 2;
-            
-#ifdef QCOM_LEGACY_OMX
-       case OMX_QCOM_COLOR_FormatYVU420SemiPlanar:
-            return (((width + 15) & -16) * ((height + 15) & -16) * 3) / 2;
-#endif
 
 #ifdef USE_SAMSUNG_COLORFORMAT
         case OMX_SEC_COLOR_FormatNV12LVirtualAddress:
@@ -1621,9 +1575,6 @@ OMXCodec::OMXCodec(
       mNativeWindow(
               (!strncmp(componentName, "OMX.google.", 11)
               || !strcmp(componentName, "OMX.Nvidia.mpeg2v.decode")
-#ifdef QCOM_LEGACY_OMX
-              || !strncmp(componentName, "OMX.qcom",8)
-#endif
       )
                         ? NULL : nativeWindow) {
     mPortStatus[kPortIndexInput] = ENABLED;
@@ -1816,16 +1767,6 @@ status_t OMXCodec::allocateBuffersOnPort(OMX_U32 portIndex) {
     }
 
     status_t err = OK;
-#ifndef QCOM_LEGACY_OMX
-    if ((mFlags & kStoreMetaDataInVideoBuffers)
-            && portIndex == kPortIndexInput) {
-        err = mOMX->storeMetaDataInBuffers(mNode, kPortIndexInput, OMX_TRUE);
-        if (err != OK) {
-            ALOGE("Storing meta data in video buffers is not supported");
-            return err;
-        }
-    }
-#endif
 
     OMX_PARAM_PORTDEFINITIONTYPE def;
     InitOMXParams(&def);

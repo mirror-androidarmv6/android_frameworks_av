@@ -26,10 +26,6 @@
 #include <ui/GraphicBufferMapper.h>
 #include <gui/ISurfaceTexture.h>
 
-#if defined(QCOM_LEGACY_OMX) && !defined(MISSING_GRALLOC_BUFFERS)
-#include <gralloc_priv.h>
-#endif
-
 namespace android {
 
 #ifdef QCOM_HARDWARE
@@ -86,17 +82,6 @@ SoftwareRenderer::SoftwareRenderer(
 
             // fall through.
         }
-        
-#ifdef QCOM_LEGACY_OMX
-        case OMX_QCOM_COLOR_FormatYVU420SemiPlanar:
-        {
-            halFormat = HAL_PIXEL_FORMAT_YCrCb_420_SP;
-            bufWidth = (mCropWidth + 1) & ~1;
-            bufHeight = (mCropHeight + 1) & ~1;
-            mAlign = ((mWidth + 15) & -16) * ((mHeight + 15) & -16);
-            break;
-        }
-#endif
 
         default:
             halFormat = HAL_PIXEL_FORMAT_RGB_565;
@@ -108,10 +93,6 @@ SoftwareRenderer::SoftwareRenderer(
             CHECK(mConverter->isValid());
             break;
     }
-    
-    ALOGI("Buffer color format: 0x%X", mColorFormat);
-    ALOGI("Video params: mWidth: %d, mHeight: %d, mCropWidth: %d, mCropHeight: %d, mCropTop: %d, mCropLeft: %d",
-         mWidth, mHeight, mCropWidth, mCropHeight, mCropTop, mCropLeft);
 
     CHECK(mNativeWindow != NULL);
     CHECK(mCropWidth > 0);
@@ -131,9 +112,6 @@ SoftwareRenderer::SoftwareRenderer(
             mNativeWindow.get(),
             GRALLOC_USAGE_SW_READ_NEVER | GRALLOC_USAGE_SW_WRITE_OFTEN
             | GRALLOC_USAGE_HW_TEXTURE | GRALLOC_USAGE_EXTERNAL_DISP
-#if defined(QCOM_LEGACY_OMX) && !defined(MISSING_GRALLOC_BUFFERS)
-            | GRALLOC_USAGE_PRIVATE_ADSP_HEAP | GRALLOC_USAGE_PRIVATE_UNCACHED
-#endif
             ));
 #endif
 
@@ -228,31 +206,6 @@ void SoftwareRenderer::render(
             dst_u += dst_c_stride;
             dst_v += dst_c_stride;
         }
-#ifdef QCOM_LEGACY_OMX
-    } else if (mColorFormat == OMX_QCOM_COLOR_FormatYVU420SemiPlanar) {
-        // Legacy Qualcomm color format
-
-        uint8_t *src_y = (uint8_t *)data;
-        uint8_t *src_u = src_y + mAlign;
-        uint8_t *dst_y = (uint8_t *)dst;
-        uint8_t *dst_u = dst_y + buf->stride * buf->height;
-
-        // Legacy codec doesn't return crop params. Ignore it for speedup :)
-        memcpy(dst_y, src_y, mCropWidth * mCropHeight);
-        memcpy(dst_u, src_u, mCropWidth * mCropHeight / 2);
-
-        /*for(size_t y = 0; y < mCropHeight; ++y) {
-            memcpy(dst_y, src_y, mCropWidth);
-            dst_y += buf->stride;
-            src_y += mWidth;
-
-            if(y & 1) {
-                memcpy(dst_u, src_u, mCropWidth);
-                dst_u += buf->stride;
-                src_u += mWidth;
-            }
-        }*/
-#endif
     } else {
         CHECK_EQ(mColorFormat, OMX_TI_COLOR_FormatYUV420PackedSemiPlanar);
 

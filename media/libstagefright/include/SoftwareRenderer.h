@@ -48,9 +48,6 @@ private:
     int32_t mWidth, mHeight;
     int32_t mCropLeft, mCropTop, mCropRight, mCropBottom;
     int32_t mCropWidth, mCropHeight;
-#ifdef QCOM_LEGACY_OMX
-    int32_t mAlign;
-#endif
 
     SoftwareRenderer(const SoftwareRenderer &);
     SoftwareRenderer &operator=(const SoftwareRenderer &);
