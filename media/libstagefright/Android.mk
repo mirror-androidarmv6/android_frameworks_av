@@ -74,11 +74,7 @@ LOCAL_C_INCLUDES:= \
         $(TOP)/system/core/include
 
 ifeq ($(TARGET_BOARD_PLATFORM),msm7x27)
-ifeq ($(TARGET_QCOM_DISPLAY_VARIANT),mr1)
-        LOCAL_C_INCLUDES += $(TOP)/hardware/qcom/display_legacy-mr1/libgralloc
-else
         LOCAL_C_INCLUDES += $(TOP)/hardware/qcom/display_legacy/libgralloc
-endif
 else
         LOCAL_C_INCLUDES += $(TOP)/hardware/qcom/display/libgralloc
 endif
