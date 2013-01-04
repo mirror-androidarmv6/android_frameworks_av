@@ -805,6 +805,9 @@ void parseVorbisComment(
         { "ANDROID_LOOP", kKeyAutoLoop },
     };
 
+    char repeatRingtone[PROPERTY_VALUE_MAX];
+    property_get("media.ringtone.force_repeat", repeatRingtone, "0");
+
         for (size_t j = 0; j < sizeof(kMap) / sizeof(kMap[0]); ++j) {
             size_t tagLen = strlen(kMap[j].mTag);
             if (!strncasecmp(kMap[j].mTag, comment, tagLen)
@@ -815,7 +818,8 @@ void parseVorbisComment(
                             &comment[tagLen + 1],
                             commentLength - tagLen - 1);
                 } else if (kMap[j].mKey == kKeyAutoLoop) {
-                    if (!strcasecmp(&comment[tagLen + 1], "true")) {
+                    if (!strcasecmp(&comment[tagLen + 1], "true")
+                        || atoi(repeatRingtone)) {
                         fileMeta->setInt32(kKeyAutoLoop, true);
                     }
                 } else {
