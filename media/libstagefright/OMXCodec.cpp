@@ -1025,7 +1025,7 @@ void OMXCodec::setVideoInputFormat(
     success = success && meta->findInt32(kKeyBitRate, &bitRate);
     success = success && meta->findInt32(kKeyStride, &stride);
     success = success && meta->findInt32(kKeySliceHeight, &sliceHeight);
-    CODEC_LOGI("setVideoInputFormat width=%ld, height=%ld", width, height);
+    CODEC_LOGI("setVideoInputFormat width=%d, height=%d", width, height);
     CHECK(success);
     CHECK(stride != 0);
 
@@ -1431,7 +1431,7 @@ status_t OMXCodec::setVideoOutputFormat(
     success = success && meta->findInt32(kKeyHeight, &height);
     CHECK(success);
 
-    CODEC_LOGV("setVideoOutputFormat width=%ld, height=%ld", width, height);
+    CODEC_LOGV("setVideoOutputFormat width=%d, height=%d", width, height);
 
     OMX_VIDEO_CODINGTYPE compressionFormat = OMX_VIDEO_CodingUnused;
     if (!strcasecmp(MEDIA_MIMETYPE_VIDEO_AVC, mime)) {
@@ -2015,25 +2015,18 @@ status_t OMXCodec::allocateOutputBuffersFromNativeWindow() {
     }
 
 #ifndef USE_SAMSUNG_COLORFORMAT
-
+    OMX_COLOR_FORMATTYPE format = def.format.video.eColorFormat;
 #ifdef QCOM_ICS_COMPAT
-    int format = (def.format.video.eColorFormat ==
-                  OMX_QCOM_COLOR_FormatYUV420PackedSemiPlanar64x32Tile2m8ka)?
-                 HAL_PIXEL_FORMAT_YCbCr_420_SP_TILED : def.format.video.eColorFormat;
+    if(format == OMX_QCOM_COLOR_FormatYUV420PackedSemiPlanar64x32Tile2m8ka)
+        format = (OMX_COLOR_FORMATTYPE)HAL_PIXEL_FORMAT_YCbCr_420_SP_TILED;
 #endif
 
     err = native_window_set_buffers_geometry(
             mNativeWindow.get(),
             def.format.video.nFrameWidth,
             def.format.video.nFrameHeight,
-#ifdef QCOM_ICS_COMPAT
-            format
+            format);
 #else
-            def.format.video.eColorFormat
-#endif
-            );
-#else
-
     OMX_COLOR_FORMATTYPE eColorFormat;
 
     switch (def.format.video.eColorFormat) {
