@@ -949,25 +949,16 @@ public:
     static const char KEY_MIN_SHARPNESS[];
 #endif
     static const char KEY_MAX_SHARPNESS[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
-    static const char KEY_MIN_SHARPNESS[];
-#endif
     static const char KEY_CONTRAST[];
 #ifdef QCOM_HARDWARE
     static const char KEY_MIN_CONTRAST[];
 #endif
     static const char KEY_MAX_CONTRAST[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
-    static const char KEY_MIN_CONTRAST[];
-#endif
     static const char KEY_SATURATION[];
 #ifdef QCOM_HARDWARE
     static const char KEY_MIN_SATURATION[];
 #endif
     static const char KEY_MAX_SATURATION[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
-    static const char KEY_MIN_SATURATION[];
-#endif
 
     static const char KEY_HISTOGRAM[] ;
     static const char KEY_SUPPORTED_HISTOGRAM_MODES[] ;
