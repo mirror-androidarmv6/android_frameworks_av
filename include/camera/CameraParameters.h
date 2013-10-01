@@ -968,19 +968,17 @@ public:
 
     static const char KEY_SHARPNESS[];
     static const char KEY_MAX_SHARPNESS[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
+
+#if defined(SAMSUNG_CAMERA_LEGACY) || defined(QCOM_LEGACY_CAM_PARAMS)
     static const char KEY_MIN_SHARPNESS[];
+    static const char KEY_MIN_CONTRAST[];
+    static const char KEY_MIN_SATURATION[];
 #endif
     static const char KEY_CONTRAST[];
     static const char KEY_MAX_CONTRAST[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
-    static const char KEY_MIN_CONTRAST[];
-#endif
+
     static const char KEY_SATURATION[];
     static const char KEY_MAX_SATURATION[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
-    static const char KEY_MIN_SATURATION[];
-#endif
 
     static const char KEY_HISTOGRAM[] ;
     static const char KEY_SUPPORTED_HISTOGRAM_MODES[] ;
@@ -1040,7 +1038,7 @@ public:
     static const char HDR_ENABLE[];
     static const char HDR_DISABLE[];
 
-#if defined(QCOM_HARDWARE) && defined(SAMSUNG_CAMERA_LEGACY)
+#if defined(QCOM_HARDWARE) || defined(SAMSUNG_CAMERA_LEGACY)
     static const char FOCUS_MODE_FACEDETECT[];
     static const char FOCUS_MODE_TOUCHAF[];
     static const char ISO_50[];
