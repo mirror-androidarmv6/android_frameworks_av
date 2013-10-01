@@ -947,6 +947,26 @@ public:
     static const char FOCUS_MODE_NORMAL[];
     static const char ISO_AUTO[];
     static const char ISO_HJR[] ;
+#ifdef SAMSUNG_CAMERA_QCOM
+    static const char FOCUS_MODE_FACEDETECT[];
+    static const char FOCUS_MODE_TOUCHAF[];
+    static const char ISO_50[];
+    static const char KEY_AUTO_CONTRAST[];
+    static const char KEY_BEAUTY_MODE[];
+    static const char KEY_BLUR_MODE[];
+    static const char KEY_VINTAGE_MODE[];
+    static const char KEY_WDR_MODE[];
+    static const char VINTAGE_MODE_BNW[];
+    static const char VINTAGE_MODE_COOL[];
+    static const char VINTAGE_MODE_NORMAL[];
+    static const char VINTAGE_MODE_OFF[];
+    static const char VINTAGE_MODE_WARM[];
+    static const char SCENE_MODE_DAWN[];
+    static const char SCENE_MODE_DUSKDAWN[];
+    static const char SCENE_MODE_FALL[];
+    static const char SCENE_MODE_FALL_COLOR[];
+    static const char SCENE_MODE_TEXT[];
+#endif
     static const char ISO_100[];
     static const char ISO_200[] ;
     static const char ISO_400[];
@@ -965,19 +985,17 @@ public:
 
     static const char KEY_SHARPNESS[];
     static const char KEY_MAX_SHARPNESS[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
+
+#if defined(QCOM_HARDWARE) || defined(QCOM_LEGACY_CAM_PARAMS)
     static const char KEY_MIN_SHARPNESS[];
+    static const char KEY_MIN_CONTRAST[];
+    static const char KEY_MIN_SATURATION[];
 #endif
     static const char KEY_CONTRAST[];
     static const char KEY_MAX_CONTRAST[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
-    static const char KEY_MIN_CONTRAST[];
-#endif
+
     static const char KEY_SATURATION[];
     static const char KEY_MAX_SATURATION[];
-#ifdef QCOM_LEGACY_CAM_PARAMS
-    static const char KEY_MIN_SATURATION[];
-#endif
 
     static const char KEY_HISTOGRAM[] ;
     static const char KEY_SUPPORTED_HISTOGRAM_MODES[] ;
