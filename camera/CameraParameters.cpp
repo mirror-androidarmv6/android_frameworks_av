@@ -100,7 +100,7 @@ const char CameraParameters::KEY_SUPPORTED_SCENE_MODES[] = "scene-mode-values";
 #ifdef QCOM_HARDWARE
 const char CameraParameters::KEY_SCENE_DETECT[] = "scene-detect";
 const char CameraParameters::KEY_SUPPORTED_SCENE_DETECT[] = "scene-detect-values";
-#endif QCOM_HARDWARE
+#endif
 const char CameraParameters::KEY_FLASH_MODE[] = "flash-mode";
 const char CameraParameters::KEY_SUPPORTED_FLASH_MODES[] = "flash-mode-values";
 const char CameraParameters::KEY_FOCUS_MODE[] = "focus-mode";
@@ -132,9 +132,6 @@ const char CameraParameters::KEY_ISO_MODE[] = "iso";
 const char CameraParameters::KEY_SUPPORTED_ISO_MODES[] = "iso-values";
 const char CameraParameters::KEY_LENSSHADE[] = "lensshade";
 const char CameraParameters::KEY_SUPPORTED_LENSSHADE_MODES[] = "lensshade-values";
-#ifdef SAMSUNG_CAMERA_LEGACY
-const char CameraParameters::KEY_AUTO_EXPOSURE[] = "metering";
-#else
 const char CameraParameters::KEY_AUTO_EXPOSURE[] = "auto-exposure";
 #endif
 const char CameraParameters::KEY_SUPPORTED_AUTO_EXPOSURE[] = "auto-exposure-values";
@@ -330,9 +327,6 @@ const char CameraParameters::SCENE_MODE_SPORTS[] = "sports";
 const char CameraParameters::SCENE_MODE_PARTY[] = "party";
 const char CameraParameters::SCENE_MODE_CANDLELIGHT[] = "candlelight";
 #ifdef QCOM_HARDWARE
-#ifdef SAMSUNG_CAMERA_LEGACY
-const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "back-light";
-#else
 const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "backlight";
 #endif
 const char CameraParameters::SCENE_MODE_FLOWERS[] = "flowers";
@@ -422,28 +416,24 @@ const char CameraParameters::HISTOGRAM_DISABLE[] = "disable";
 //Values for Skin Tone Enhancement Modes
 const char CameraParameters::SKIN_TONE_ENHANCEMENT_ENABLE[] = "enable";
 const char CameraParameters::SKIN_TONE_ENHANCEMENT_DISABLE[] = "disable";
-
-const char CameraParameters::KEY_SHARPNESS[] = "sharpness";
-#ifdef QCOM_LEGACY_CAM_PARAMS
-const char CameraParameters::KEY_MAX_SHARPNESS[] = "sharpness-max";
+#if defined(SAMSUNG_CAMERA_LEGACY) || defined(QCOM_LEGACY_CAM_PARAMS)
 const char CameraParameters::KEY_MIN_SHARPNESS[] = "sharpness-min";
+const char CameraParameters::KEY_MIN_CONTRAST[] = "contrast-min";
+const char CameraParameters::KEY_MIN_SATURATION[] = "saturation-min";
+const char CameraParameters::KEY_MAX_SHARPNESS[] = "sharpness-max";
+const char CameraParameters::KEY_MAX_CONTRAST[] = "contrast-max";
+const char CameraParameters::KEY_MAX_SATURATION[] = "saturation-max";
+const char CameraParameters::KEY_AUTO_EXPOSURE[] = "metering";
+const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "back-light";
 #else
 const char CameraParameters::KEY_MAX_SHARPNESS[] = "max-sharpness";
-#endif
-const char CameraParameters::KEY_CONTRAST[] = "contrast";
-#ifdef QCOM_LEGACY_CAM_PARAMS
-const char CameraParameters::KEY_MAX_CONTRAST[] = "contrast-max";
-const char CameraParameters::KEY_MIN_CONTRAST[] = "contrast-min";
-#else
 const char CameraParameters::KEY_MAX_CONTRAST[] = "max-contrast";
-#endif
-const char CameraParameters::KEY_SATURATION[] = "saturation";
-#ifdef QCOM_LEGACY_CAM_PARAMS
-const char CameraParameters::KEY_MAX_SATURATION[] = "saturation-max";
-const char CameraParameters::KEY_MIN_SATURATION[] = "saturation-min";
-#else
 const char CameraParameters::KEY_MAX_SATURATION[] = "max-saturation";
 #endif
+const char CameraParameters::KEY_SHARPNESS[] = "sharpness";
+const char CameraParameters::KEY_CONTRAST[] = "contrast";
+const char CameraParameters::KEY_SATURATION[] = "saturation";
+
 
 //Values for DENOISE
 const char CameraParameters::DENOISE_OFF[] = "denoise-off";
@@ -511,6 +501,7 @@ const char CameraParameters::SCENE_MODE_FALL[] = "fall-color";
 const char CameraParameters::SCENE_MODE_FALL_COLOR[] = "fall-color";
 const char CameraParameters::SCENE_MODE_TEXT[] = "text";
 #endif
+
 
 static const char* portrait = "portrait";
 static const char* landscape = "landscape";
