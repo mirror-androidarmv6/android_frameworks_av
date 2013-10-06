@@ -51,6 +51,9 @@ LOCAL_C_INCLUDES += \
     system/media/camera/include \
     external/jpeg
 
+ifeq ($(CAMERA_FC_HACK), true)
+LOCAL_CFLAGS     += -DCAMERA_FC_HACK
+endif
 
 LOCAL_CFLAGS += -Wall -Wextra
 
