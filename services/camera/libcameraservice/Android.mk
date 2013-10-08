@@ -66,6 +66,10 @@ ifeq ($(BOARD_HTC_3D_SUPPORT),true)
     LOCAL_CFLAGS += -DHTC_3D_SUPPORT
 endif
 
+ifeq ($(CAMERA_FC_HACK), true)
+LOCAL_CFLAGS     += -DCAMERA_FC_HACK
+endif
+
 LOCAL_MODULE:= libcameraservice
 
 include $(BUILD_SHARED_LIBRARY)
