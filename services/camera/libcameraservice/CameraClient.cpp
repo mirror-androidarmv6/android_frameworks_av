@@ -893,8 +893,9 @@ void CameraClient::handleShutter(void) {
         c->notifyCallback(CAMERA_MSG_SHUTTER, 0, 0);
         if (!lockIfMessageWanted(CAMERA_MSG_SHUTTER)) return;
     }
+#ifndef CAMERA_FC_HACK
     disableMsgType(CAMERA_MSG_SHUTTER);
-
+#endif
     mLock.unlock();
 }
 
