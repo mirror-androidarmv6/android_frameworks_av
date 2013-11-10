@@ -162,7 +162,7 @@ public:
     /* Terminates the AudioRecord and unregisters it from AudioFlinger.
      * Also destroys all resources associated with the AudioRecord.
      */
-protected:
+public:
                         virtual ~AudioRecord();
 public:
 
