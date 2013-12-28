@@ -1291,9 +1291,19 @@ status_t StagefrightRecorder::checkVideoEncoderCapabilities(
              mVideoEncoder == VIDEO_ENCODER_MPEG_4_SP ? MEDIA_MIMETYPE_VIDEO_MPEG4 :
              mVideoEncoder == VIDEO_ENCODER_H264 ? MEDIA_MIMETYPE_VIDEO_AVC : ""),
             false /* decoder */, true /* hwCodec */, &codecs);
-    *supportsCameraSourceMetaDataMode = codecs.size() > 0;
+
+#ifdef QCOM_HARDWARE
+    char value[PROPERTY_VALUE_MAX];
+    if (property_get("debug.camcorder.disablemeta", value, NULL) &&
+        atoi(value)) {
+        *supportsCameraSourceMetaDataMode = false;
+    }
+    else
+#endif
+        *supportsCameraSourceMetaDataMode = codecs.size() > 0;
     ALOGV("encoder %s camera source meta-data mode",
             *supportsCameraSourceMetaDataMode ? "supports" : "DOES NOT SUPPORT");
+
 
     if (!mCaptureTimeLapse) {
         // Dont clip for time lapse capture as encoder will have enough
@@ -1639,6 +1649,7 @@ status_t StagefrightRecorder::setupVideoEncoder(
 
     uint32_t encoder_flags = 0;
     if (mIsMetaDataStoredInVideoBuffers) {
+        ALOGW("Camera source supports metadata mode, create OMXCodec for metadata");
         encoder_flags |= OMXCodec::kStoreMetaDataInVideoBuffers;
 #ifdef USE_SUBMIT_ONE_INPUT_BUFFER
         ALOGW("msm7627 family of chipsets supports, only one buffer at a time");
