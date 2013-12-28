@@ -1520,6 +1520,13 @@ status_t StagefrightRecorder::setupCameraSource(
     Size videoSize;
     videoSize.width = mVideoWidth;
     videoSize.height = mVideoHeight;
+#ifdef QCOM_HARDWARE
+    char value[PROPERTY_VALUE_MAX];
+    if (property_get("debug.camcorder.disablemeta", value, NULL) &&
+        atoi(value)) {
+        encoderSupportsCameraSourceMetaDataMode = false;
+    }
+#endif
     if (mCaptureTimeLapse) {
         if (mTimeBetweenTimeLapseFrameCaptureUs < 0) {
             ALOGE("Invalid mTimeBetweenTimeLapseFrameCaptureUs value: %lld",
@@ -1639,6 +1646,7 @@ status_t StagefrightRecorder::setupVideoEncoder(
 
     uint32_t encoder_flags = 0;
     if (mIsMetaDataStoredInVideoBuffers) {
+        ALOGW("Camera source supports metadata mode, create OMXCodec for metadata");
         encoder_flags |= OMXCodec::kStoreMetaDataInVideoBuffers;
 #ifdef USE_SUBMIT_ONE_INPUT_BUFFER
         ALOGW("msm7627 family of chipsets supports, only one buffer at a time");
