@@ -730,7 +730,9 @@ status_t CameraClient::sendCommand(int32_t cmd, int32_t arg1, int32_t arg2) {
         mLongshotEnabled = true;
     } else if ( cmd == CAMERA_CMD_LONGSHOT_OFF ) {
         mLongshotEnabled = false;
-        disableMsgType(CAMERA_MSG_SHUTTER);
+#ifndef CAMERA_FC_HACK
+    disableMsgType(CAMERA_MSG_SHUTTER);
+#endif
         disableMsgType(CAMERA_MSG_COMPRESSED_IMAGE);
 #endif
     }
@@ -911,7 +913,9 @@ void CameraClient::handleShutter(void) {
         if (!lockIfMessageWanted(CAMERA_MSG_SHUTTER)) return;
     }
     if ( !mLongshotEnabled ) {
-        disableMsgType(CAMERA_MSG_SHUTTER);
+#ifndef CAMERA_FC_HACK
+    disableMsgType(CAMERA_MSG_SHUTTER);
+#endif
     }
 
     mLock.unlock();
