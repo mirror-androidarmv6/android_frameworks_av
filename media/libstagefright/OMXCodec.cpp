@@ -5436,6 +5436,10 @@ status_t QueryCodec(
         if (err != OK) {
             break;
         }
+        if (index > 999) {
+            ALOGE("QueryCodec: Color format query: portFormat.nIndex > 999 is not sane.");
+            break;
+        }
         caps->mColorFormats.push(portFormat.eColorFormat);
     }
 
