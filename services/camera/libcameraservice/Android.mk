@@ -78,6 +78,10 @@ ifeq ($(BOARD_CAMERA_MSG_MGMT),true)
     LOCAL_CFLAGS += -DCAMERA_MSG_MGMT
 endif
 
+ifeq ($(BOARD_CAMERA_NO_UNWANTED_MSG),true)
+    LOCAL_CFLAGS += -DCAMERA_NO_UNWANTED_MSG
+endif
+
 LOCAL_MODULE:= libcameraservice
 
 include $(BUILD_SHARED_LIBRARY)
