@@ -100,7 +100,7 @@ const char CameraParameters::KEY_ZOOM_SUPPORTED[] = "zoom-supported";
 const char CameraParameters::KEY_SMOOTH_ZOOM_SUPPORTED[] = "smooth-zoom-supported";
 const char CameraParameters::KEY_FOCUS_DISTANCES[] = "focus-distances";
 const char CameraParameters::KEY_VIDEO_FRAME_FORMAT[] = "video-frame-format";
-#ifdef QCOM_HARDWARE
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
 #ifndef HAVE_ISO
 const char CameraParameters::KEY_ISO_MODE[] = "iso";
 const char CameraParameters::KEY_SUPPORTED_ISO_MODES[] = "iso-values";
@@ -333,7 +333,7 @@ const char CameraParameters::SCENE_MODE_FIREWORKS[] = "fireworks";
 const char CameraParameters::SCENE_MODE_SPORTS[] = "sports";
 const char CameraParameters::SCENE_MODE_PARTY[] = "party";
 const char CameraParameters::SCENE_MODE_CANDLELIGHT[] = "candlelight";
-#ifdef QCOM_HARDWARE
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
 #ifdef SAMSUNG_CAMERA_LEGACY
 const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "back-light";
 #else
@@ -384,7 +384,7 @@ const char CameraParameters::FOCUS_MODE_CONTINUOUS_PICTURE[] = "continuous-pictu
 #ifdef OPPO_CAMERA_HARDWARE
 const char CameraParameters::FOCUS_MODE_MANUAL_POSITION[] = "manual";
 #endif
-#if defined(QCOM_HARDWARE)
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
 const char CameraParameters::FOCUS_MODE_NORMAL[] = "normal";
 
 
@@ -476,7 +476,7 @@ const char CameraParameters::AE_BRACKET[] = "AE-Bracket";
 const char CameraParameters::LOW_POWER[] = "Low_Power";
 const char CameraParameters::NORMAL_POWER[] = "Normal_Power";
 
-#if defined(QCOM_HARDWARE) && defined(SAMSUNG_CAMERA_LEGACY)
+#if (defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)) && defined(SAMSUNG_CAMERA_LEGACY)
 const char CameraParameters::FOCUS_MODE_FACEDETECT[] = "facedetect";
 const char CameraParameters::FOCUS_MODE_TOUCHAF[] = "touchaf";
 const char CameraParameters::ISO_50[] = "ISO50";
@@ -518,6 +518,14 @@ void CameraParameters::setOrientation(int orientation)
 }
 #endif
 
+#if defined(BCM_HARDWARE)
+const char CameraParameters::KEY_CAM_DTP_MODE[] = "chk_dataline";
+const char CameraParameters::KEY_CAM_MODE[] = "mode";
+
+void CameraParameters::getMode() const
+{
+}
+#endif
 
 // Values for light fx settings
 const char CameraParameters::LIGHTFX_LOWLIGHT[] = "low-light";
