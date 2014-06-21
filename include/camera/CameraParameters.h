@@ -251,7 +251,7 @@ public:
     // Example value: "21.0" or "-5". Write only.
     static const char KEY_GPS_ALTITUDE[];
 
-#ifdef QCOM_HARDWARE
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
     static const char KEY_SKIN_TONE_ENHANCEMENT[] ;
     static const char KEY_SUPPORTED_SKIN_TONE_ENHANCEMENT_MODES[] ;
 #endif
@@ -577,7 +577,7 @@ public:
     static const char KEY_VIDEO_SNAPSHOT_SUPPORTED[];
     static const char KEY_FULL_VIDEO_SNAP_SUPPORTED[];
 
-#ifdef QCOM_HARDWARE
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
 #ifndef HAVE_ISO
     static const char KEY_ISO_MODE[];
     static const char KEY_SUPPORTED_ISO_MODES[];
@@ -609,7 +609,7 @@ public:
     // has no effect on still image capture.
     static const char KEY_VIDEO_STABILIZATION[];
 
-#ifdef QCOM_HARDWARE
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
     static const char KEY_MEMORY_COLOR_ENHANCEMENT[];
     static const char KEY_SUPPORTED_MEM_COLOR_ENHANCE_MODES[];
 
@@ -750,7 +750,7 @@ public:
     static const char KEY_SONY_SCENE_DETECT_SUPPORTED[];
 #endif
 
-#ifdef QCOM_HARDWARE
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
     // DENOISE
     static const char KEY_DENOISE[];
     static const char KEY_SUPPORTED_DENOISE[];
@@ -848,7 +848,7 @@ public:
     static const char SCENE_MODE_SPORTS[];
     static const char SCENE_MODE_PARTY[];
     static const char SCENE_MODE_CANDLELIGHT[];
-#ifdef QCOM_HARDWARE
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
     static const char SCENE_MODE_BACKLIGHT[];
     static const char SCENE_MODE_FLOWERS[];
     static const char SCENE_MODE_AR[];
@@ -951,7 +951,7 @@ public:
     // High-dynamic range mode
     static const char LIGHTFX_HDR[];
 
-#ifdef QCOM_HARDWARE
+#if defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)
     // Normal focus mode. Applications should call
     // CameraHardwareInterface.autoFocus to start the focus in this mode.
     static const char FOCUS_MODE_NORMAL[];
@@ -1034,7 +1034,7 @@ public:
     static const char HDR_ENABLE[];
     static const char HDR_DISABLE[];
 
-#if defined(QCOM_HARDWARE) && defined(SAMSUNG_CAMERA_LEGACY)
+#if (defined(QCOM_HARDWARE) || defined(BCM_HARDWARE)) && defined(SAMSUNG_CAMERA_LEGACY)
     static const char FOCUS_MODE_FACEDETECT[];
     static const char FOCUS_MODE_TOUCHAF[];
     static const char ISO_50[];
@@ -1072,6 +1072,13 @@ public:
     void setOrientation(int orientation);
     void setPreviewFpsRange(int minFPS,int maxFPS);
     void getSupportedHfrSizes(Vector<Size> &sizes) const;
+#endif
+
+#if defined(BCM_HARDWARE)
+    static const char KEY_CAM_DTP_MODE[];
+    static const char KEY_CAM_MODE[];
+
+    void getMode() const;
 #endif
 
 private:
