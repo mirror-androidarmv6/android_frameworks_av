@@ -48,6 +48,9 @@ void OMXMaster::addVendorPlugin() {
 #ifdef SAMSUNG_OMX
     addPlugin("libsomxcore.so");
 #endif
+#ifdef BCM_HARDWARE
+    addPlugin("libBRCM_omx_core_plugin.so");
+#endif
 }
 
 void OMXMaster::addPlugin(const char *libname) {

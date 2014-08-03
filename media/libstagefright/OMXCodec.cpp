@@ -1814,6 +1814,9 @@ OMXCodec::OMXCodec(
               (!strncmp(componentName, "OMX.google.", 11)
 #ifdef QCOM_LEGACY_OMX
               || !strncmp(componentName, "OMX.qcom", 8)
+#ifdef BCM_HARDWARE
+              || !strncmp(componentName, "BRCM_OMX", 8)
+#endif
 #endif
               || !strncmp(componentName, "OMX.ffmpeg.", 11)
               )
@@ -5844,6 +5847,10 @@ void OMXCodec::initOutputFormat(const sp<MetaData> &inputFormat) {
             // With legacy codec we get wrong color format here
             if (!strncmp(mComponentName, "OMX.qcom.", 9))
                 mOutputFormat->setInt32(kKeyColorFormat, OMX_QCOM_COLOR_FormatYVU420SemiPlanar);
+#ifdef BCM_HARDWARE
+            else if (!strncmp(mComponentName, "BRCM_OMX.", 9))
+                mOutputFormat->setInt32(kKeyColorFormat, OMX_QCOM_COLOR_FormatYVU420SemiPlanar);
+#endif
             else
 #endif
             mOutputFormat->setInt32(kKeyColorFormat, video_def->eColorFormat);
@@ -5862,6 +5869,13 @@ void OMXCodec::initOutputFormat(const sp<MetaData> &inputFormat) {
                         video_def->nFrameWidth, video_def->nFrameHeight);
 
                 if (err == OK) {
+#ifdef BCM_HARDWARE
+                    /* Hack GetConfig */
+                    rect.nLeft = 0;
+                    rect.nTop = 0;
+                    rect.nWidth = video_def->nFrameWidth;
+                    rect.nHeight = video_def->nFrameHeight;
+#endif
                     CHECK_GE(rect.nLeft, 0);
                     CHECK_GE(rect.nTop, 0);
                     CHECK_GE(rect.nWidth, 0u);

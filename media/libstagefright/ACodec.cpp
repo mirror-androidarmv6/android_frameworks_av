@@ -838,6 +838,11 @@ void ACodec::setNativeWindowColorFormat(OMX_COLOR_FORMATTYPE &eNativeColorFormat
     if (!strncmp(mComponentName.c_str(), "OMX.qcom.", 9)) {
         if (eNativeColorFormat == OMX_QCOM_COLOR_FormatYVU420SemiPlanar)
             eNativeColorFormat = (OMX_COLOR_FORMATTYPE)HAL_PIXEL_FORMAT_YCrCb_420_SP;
+#ifdef BCM_HARDWARE
+    } else if (!strncmp(mComponentName.c_str(), "BRCM_OMX.", 9)) {
+        if (eNativeColorFormat == OMX_QCOM_COLOR_FormatYVU420SemiPlanar)
+            eNativeColorFormat = (OMX_COLOR_FORMATTYPE)HAL_PIXEL_FORMAT_YCrCb_420_SP;
+#endif
     }
 }
 #endif
